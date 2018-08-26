@@ -1,4 +1,6 @@
 .vscode
 input
-notebooks
+output
+notebooks/input
+notebooks/output
 kaggle datasets
