@@ -24,7 +24,12 @@ fieldnames =    [
                 'fuel tank capacity', 'total seating capacity',\
                 'max cargo capacity', 'drive type', 'cylinder configuration',\
                 'engine liters', 'horsepower', 'transmission', 'torque', 'abs',\
-                'size'
+                'size', 'displacement', 'horse power', 'front head room', 'overall height',\
+                'overall width', 'rear leg room', 'front leg room', 'overall length',\
+                'rear head room', 'wheelbase', 'number of valves', 'number of speeds',\
+                'curb weight', 'gross vehicle weight', 'towing capacity', 'number of doors',\
+                'speakers', 'approach angle', 'ground clearance (max)', 'ramp breakover angle',\
+                'departure angle', 'ground clearance'
                 ]
 
 def init_file_header (file_name):
@@ -66,29 +71,32 @@ def get_all_model_links (car_make):
     # Luxury Cars`, etc.
     model_sections = main_div.find_all('div', {'class': 'general-list'})
 
-    # we're only interested in SUVs
-    # it wouldn't be too hard to change this to work off a list
-    # of nouns you're interested in, and then do a second for loop
-    # to iterate through both the car type and then the links for
-    # that car type
-    suvs = list()
+    # if you wanted a specific model rather than all cars listed
+    # on the website, you can filter based off a keyword found
+    # in a header, such as here looking for 'suv'.
+    # suvs = list()
+
+    # for section in model_sections:
+    #     header = section.find('h2', {'class': 'header-label'})
+    #     if ('suv' in header.text.lower()):
+    #         suvs.append(section.find('ul').find_all('li'))
+
+    cars = list()
 
     for section in model_sections:
-        header = section.find('h2', {'class': 'header-label'})
-        if ('suv' in header.text.lower()):
-            suvs.append(section.find('ul').find_all('li'))
+        cars.append(section.find('ul').find_all('li'))
 
     # find each car model link
-    if (suvs):
-        for suv_type in suvs:
-            for list_item in suv_type:
+    if (cars):
+        for car_type in cars:
+            for list_item in car_type:
                 links = list_item.find_all('a')
                 for link in links:
                     html_url = "%s%s" % (domain, link['href'])
                     result_list.append(html_url)
 
     else:
-        print('ERROR: No SUVs were found at %s - skipping' % (url))
+        print('ERROR: No cars were found at %s - skipping' % (url))
 
     return result_list
 
