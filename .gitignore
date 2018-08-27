@@ -4,3 +4,4 @@ output
 notebooks/input
 notebooks/output
 kaggle datasets
+*.csv
